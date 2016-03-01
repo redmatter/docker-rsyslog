@@ -2,7 +2,7 @@
 
 set -e -u -x;
 
-: ${IMAGE_TAG:=rsyslog}
+: ${IMAGE_TAG:=redmatter/rsyslog}
 
 export DEBIAN_FRONTEND=noninteractive;
 apt-get update;
