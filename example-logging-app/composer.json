@@ -1,0 +1,9 @@
+{
+    "require": {
+        "silex/silex": "^1.3.5",
+        "monolog/monolog": "^1.17.2"
+    },
+    "require-dev": {
+        "sorien/silex-pimple-dumper": "^1.0.3"
+    }
+}

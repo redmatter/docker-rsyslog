@@ -1,0 +1,20 @@
+version: "2"
+services:
+  syslog:
+    container_name: syslog
+    image: "redmatter/rsyslog"
+    restart: always
+    volumes:
+      - /tmp/rsyslog-dev:/rsyslog
+
+  logging-app:
+    build: "example-logging-app"
+    ports:
+      - "80:80"
+    links:
+      # make sure syslog container starts up before the app
+      - syslog
+    volumes:
+      - /tmp/rsyslog-dev/imuxsock:/dev/log
+
+# vim: tabstop=2 shiftwidth=2 expandtab:

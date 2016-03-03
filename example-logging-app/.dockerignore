@@ -1,0 +1,5 @@
+.idea
+vendor
+Dockerfile
+.dockerignore
+pimple.json
