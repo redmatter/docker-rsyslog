@@ -37,7 +37,13 @@ Configure rsyslog to forward messages to another server / service. The image com
 
 **IMPORTANT:** For heavy loads or production deployments, you must configure it to not log to disk (`/var/log/messages`).
 
-#Caveats
+# Caveats
 
  - You will loose the hostname information of the logging application. The hostname that appears in the log will always be that of the `syslog` container, which is a meaningles hash created by docker (the container ID). You may consider [rsyslog property replacer](http://www.rsyslog.com/doc/v8-stable/configuration/property_replacer.html) to help you with this.
  - The `redmatter/rsyslog` is by default configured to log to `/var/log/messages`. This can get out of hand if you use it as is in heavy load production environments, as there is no `logrotate` functionality. Have a look at [`forward.conf.example`](forward.conf.example) in order to configure rsyslog to forward all messages to another host. You may also use [`elasticsearch` module](http://www.rsyslog.com/doc/v8-stable/configuration/modules/omelasticsearch.html) to forward messages to ELK stack (though it will make logstash redundant).
+
+# Bedtime reading
+
+ - https://jpetazzo.github.io/2014/08/24/syslog-docker/
+ - https://blog.logentries.com/2014/03/how-to-run-rsyslog-in-a-docker-container-for-logging/
+
