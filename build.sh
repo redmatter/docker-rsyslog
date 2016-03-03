@@ -10,6 +10,7 @@ apt-get update;
 apt-get install -y --no-install-recommends \
 	rsync \
 	rsyslog rsyslog-elasticsearch rsyslog-gnutls \
+	# busybox-static
 
 build_temp_dir=/dockerized
 
@@ -104,8 +105,8 @@ dockerize --output-dir $build_temp_dir -n \
 	/lib/x86_64-linux-gnu/libgpg-error.so.0.13.0 \
 	\
 	/lib/x86_64-linux-gnu/libgcc_s.so.1 \
-	\
-	/bin/busybox
+	# \
+	# /bin/busybox
 
 	# /usr/lib/rsyslog/imklog.so \
 
