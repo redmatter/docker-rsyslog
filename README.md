@@ -27,7 +27,7 @@ Now, if you log some messages from the `busybox` container, you will be able to 
 
 In order to inspect the messages, you can spin up another container in another terminal; you can see the message.
     
-    docker run -it --rm --volumes-from=syslog  -v /tmp/rsyslog/imuxsock:/dev/log busybox tail /var/log/messages
+    / # docker run -it --rm --volumes-from=syslog busybox tail /var/log/messages
     
     Mar  3 19:21:04 eb40accfee71 root: Test message
 
