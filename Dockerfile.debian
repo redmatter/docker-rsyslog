@@ -17,7 +17,7 @@ RUN ( \
 )
 
 COPY rsyslog.conf /etc/
-COPY rsyslog.d/default.conf /etc/rsyslog.d/
+COPY rsyslog.d/*.conf /etc/rsyslog.d/
 
 VOLUME ["/var/log"]
 
