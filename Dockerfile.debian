@@ -22,6 +22,9 @@ COPY rsyslog.d/default.conf /etc/rsyslog.d/
 
 VOLUME ["/var/log"]
 
+# UDP listen port
+EXPOSE 514/udp
+
 CMD ["/usr/sbin/rsyslogd", "-n"]
 
 # vim: tabstop=4 shiftwidth=4 expandtab:
