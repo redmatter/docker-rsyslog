@@ -8,7 +8,6 @@ RUN ( \
     set -e -u -x; \
 
     apt-get update; \
-    apt-get -y upgrade; \
     apt-get install -y --no-install-recommends ${APP_DEPS} ${BUILD_DEPS}; \
 
     #apt-get remove -y $BUILD_DEPS; \
