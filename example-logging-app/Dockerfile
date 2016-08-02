@@ -1,6 +1,7 @@
 FROM php:5.6-apache
 
 COPY . /var/www/
+COPY get-composer.sh /build/get-composer.sh
 
 RUN ( \
     export DEBIAN_FRONTEND=noninteractive; \
@@ -13,11 +14,7 @@ RUN ( \
     apt-get -y upgrade; \
     apt-get install -y --no-install-recommends ${APP_DEPS} ${BUILD_DEPS}; \
 
-    mkdir /build && cd /build; \
-    php -r "readfile('https://getcomposer.org/installer');" > composer-setup.php; \
-    php -r "if (hash('SHA384', file_get_contents('composer-setup.php')) === 'e115a8dc7871f15d853148a7fbac7da27d6c0030b848d9b3dc09e2a0388afed865e6a3d6b3c0fad45c48e2b5fc1196ae') { exit(0); } else { echo 'Installer corrupt'; unlink('composer-setup.php'); exit(1); }"; \
-    php composer-setup.php --install-dir=/build --filename=composer; \
-    php -r "unlink('composer-setup.php');"; \
+    /build/get-composer.sh; \
 
     cd /var/www/; \
     /build/composer install --no-dev --no-progress --optimize-autoloader --no-interaction; \
