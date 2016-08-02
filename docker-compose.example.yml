@@ -2,8 +2,9 @@ version: "2"
 services:
   syslog:
     container_name: syslog
-    image: "redmatter/rsyslog"
-    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile.debian
     volumes:
       - /tmp/rsyslog-dev:/rsyslog
 
