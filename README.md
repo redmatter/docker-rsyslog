@@ -14,7 +14,7 @@ The `rsyslog` container created from `redmatter/rsyslog` docker image is configu
 
     docker run -d --name syslog -v /tmp/rsyslog:/var/run/rsyslog/dev redmatter/rsyslog
 
-The command above will start up the rsyslog daemon in `syslog` container which will result in creating the socket.
+The command above will start up the rsyslog daemon in `syslog` container which will result in the socket being created at `/tmp/rsyslog/log`.
 
 To share this socket to another container, you need to volume mount just the socket as `/dev/log`.
 
@@ -42,13 +42,13 @@ To work around this, the client container can mount the parent directory of the 
 
 # What next?
 
-Configure rsyslog to forward messages to another server / service. The image comes with elasticsearch module which can be used to formward messages to ELK stack.
+Configure rsyslog to forward messages to another server / service. The image comes with elasticsearch module which can be used to forward messages to ELK stack.
 
 **IMPORTANT:** For heavy loads or production deployments, you must configure it to not log to disk (`/var/log/messages`).
 
 # Caveats
 
- - You will loose the hostname information of the logging application. The hostname that appears in the log will always be that of the `syslog` container, which is a meaningles hash created by docker (the container ID). You may consider [rsyslog property replacer](http://www.rsyslog.com/doc/v8-stable/configuration/property_replacer.html) to help you with this.
+ - You will lose the hostname information of the logging application. The hostname that appears in the log will always be that of the `syslog` container, which is a meaningless hash created by docker (the container ID). You may consider [rsyslog property replacer](http://www.rsyslog.com/doc/v8-stable/configuration/property_replacer.html) to help you with this.
  - The `redmatter/rsyslog` is by default configured to log to `/var/log/messages`. This can get out of hand if you use it as is in heavy load production environments, as there is no `logrotate` functionality. Have a look at [`forward.conf.example`](forward.conf.example) in order to configure rsyslog to forward all messages to another host. You may also use [`elasticsearch` module](http://www.rsyslog.com/doc/v8-stable/configuration/modules/omelasticsearch.html) to forward messages to ELK stack (though it will make logstash redundant).
 
 # Bedtime reading
