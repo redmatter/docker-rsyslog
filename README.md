@@ -31,6 +31,15 @@ In order to inspect the messages, you can spin up another container in another t
     
     Mar  3 19:21:04 eb40accfee71 root: Test message
 
+# Surviving restarts
+
+If using the above approach, where the socket is mounted directly to `/dev/log`, it is important that the rsyslog container is always started and has created its socket before any client container starts.
+If a client container is started before the socket has been created, the path which Docker is told to mount into the container at `/dev/log` won't yet exist, so Docker will create a directory there instead; in the example above, this will result in `/tmp/rsyslog/log` becoming a directory.  When rsyslog starts and attempts to create its socket at `/var/run/rsyslog/dev/log`, this will fail, as a directory is already present at that location.
+
+If using Docker Compose, `depends_on` can be used to ensure that the client container always starts after the rsyslog container (though it should be noted that it makes no guarantee that the rsyslog container will have created its socket in time).  However, when the Docker daemon itself is restarted, it doesn't appear to honour the startup order previously imposed by Docker Compose, so it's possible that the client container is started before rsyslog.  In this case, rsyslog fails to initialise.
+
+To work around this, the client container can mount the parent directory of the socket, rather than the socket itself.  As `/dev` is a system directory it's best not to mount this from a volume, so instead we should mount the rsyslog directory to somewhere else and use a symlink from `/dev/log` to the socket within the mounted directory.  This can be done in a wrapper script; creating the symlink during build will not work as `/dev` is a 'special' directory. 
+
 # What next?
 
 Configure rsyslog to forward messages to another server / service. The image comes with elasticsearch module which can be used to formward messages to ELK stack.
@@ -46,4 +55,4 @@ Configure rsyslog to forward messages to another server / service. The image com
 
  - https://jpetazzo.github.io/2014/08/24/syslog-docker/
  - https://blog.logentries.com/2014/03/how-to-run-rsyslog-in-a-docker-container-for-logging/
-
+ - https://github.com/helderco/docker-rsyslog
