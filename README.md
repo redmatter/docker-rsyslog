@@ -10,15 +10,15 @@ The `redmatter/rsyslog` docker image helps you with this solution.
 
 If you understand `docker-compose` YAML, then go ahead and have a look at [`docker-compose.example.yml`](docker-compose.example.yml).
 
-The `rsyslog` container created from `redmatter/rsyslog` docker image is configured to listen on an additional socket within the container at `/rsyslog/imuxsock`. In order to expose this socket to other containers, you need to pass in a path on the host as volume for `/rsyslog`.
+The `rsyslog` container created from `redmatter/rsyslog` docker image is configured to listen on an additional socket within the container at `/var/run/rsyslog/dev/log`.  In order to expose this socket to other containers, you need to ensure this container's `/var/run/rsyslog/dev` directory is mounted via a volume.
 
-    docker run -d --name syslog -v /tmp/rsyslog:/rsyslog redmatter/rsyslog
+    docker run -d --name syslog -v /tmp/rsyslog:/var/run/rsyslog/dev redmatter/rsyslog
 
 The command above will start up the rsyslog daemon in `syslog` container which will result in creating the socket.
 
 To share this socket to another container, you need to volume mount just the socket as `/dev/log`.
 
-    docker run -it --rm -v /tmp/rsyslog/imuxsock:/dev/log busybox
+    docker run -it --rm -v /tmp/rsyslog/log:/dev/log busybox
 
 Now, if you log some messages from the `busybox` container, you will be able to see these logged into `/var/log/messages` on the `syslog` container.
 
