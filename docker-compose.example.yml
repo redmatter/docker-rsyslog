@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile.debian
     volumes:
-      - /tmp/rsyslog-dev:/rsyslog
+      - /tmp/rsyslog-dev:/var/run/rsyslog/dev
 
   logging-app:
     build: "example-logging-app"
@@ -16,6 +16,6 @@ services:
       # make sure syslog container starts up before the app
       - syslog
     volumes:
-      - /tmp/rsyslog-dev/imuxsock:/dev/log
+      - /tmp/rsyslog-dev/log:/dev/log
 
 # vim: tabstop=2 shiftwidth=2 expandtab:
