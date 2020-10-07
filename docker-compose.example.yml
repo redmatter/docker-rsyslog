@@ -4,14 +4,13 @@ services:
     container_name: syslog
     build:
       context: .
-      dockerfile: Dockerfile.debian
     volumes:
       - /tmp/rsyslog-dev:/var/run/rsyslog/dev
 
   logging-app:
     build: "example-logging-app"
     ports:
-      - "80:80"
+      - "8088:80"
     links:
       # make sure syslog container starts up before the app
       - syslog
