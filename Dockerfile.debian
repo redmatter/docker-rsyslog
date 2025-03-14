@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM debian:bookworm-slim
 
 RUN ( \
     export DEBIAN_FRONTEND=noninteractive; \
@@ -18,6 +18,8 @@ RUN ( \
 
 COPY rsyslog.conf /etc/
 COPY rsyslog.d/*.conf /etc/rsyslog.d/
+
+ENV TZ=UTC
 
 VOLUME ["/var/log"]
 
