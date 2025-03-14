@@ -10,8 +10,6 @@ services:
 
   logging-app:
     build: "example-logging-app"
-    ports:
-      - "80:80"
     links:
       # make sure syslog container starts up before the app
       - syslog

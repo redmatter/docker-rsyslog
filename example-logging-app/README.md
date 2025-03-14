@@ -1,7 +1,6 @@
-This example application is there just so that the docker compose file is more meaningful.
+# Example Logging App
 
-Once the (docker-)composed services are up, you can access the application from a browser by using the below URL, where you can replace `<name>` with a word or name of your choice.
+This is an example logging app that starts up and write syslog messages at all levels using the `logger` command.
 
-    http://<DockerHost-IP>index.php/hello/<name>
+`app.sh` is invoked from the `Dockerfile` as the entrypoint. It writes log messages at all levels using the `logger` command.
 
-The app will log messages to syslog, via monolog.
