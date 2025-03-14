@@ -4,12 +4,9 @@ RUN ( \
     export DEBIAN_FRONTEND=noninteractive; \
     export BUILD_DEPS=""; \
     export APP_DEPS="rsyslog rsyslog-elasticsearch rsyslog-gnutls"; \
-
-    set -e -u -x; \
-
+    set -eux; \
     apt-get update; \
     apt-get install -y --no-install-recommends ${APP_DEPS} ${BUILD_DEPS}; \
-
     #apt-get remove -y $BUILD_DEPS; \
     apt-get clean autoclean; \
     apt-get autoremove --yes; \
