@@ -1,15 +1,12 @@
-FROM debian:jessie
+FROM debian:bookworm-slim
 
 RUN ( \
     export DEBIAN_FRONTEND=noninteractive; \
     export BUILD_DEPS=""; \
     export APP_DEPS="rsyslog rsyslog-elasticsearch rsyslog-gnutls"; \
-
-    set -e -u -x; \
-
+    set -eux; \
     apt-get update; \
     apt-get install -y --no-install-recommends ${APP_DEPS} ${BUILD_DEPS}; \
-
     #apt-get remove -y $BUILD_DEPS; \
     apt-get clean autoclean; \
     apt-get autoremove --yes; \
@@ -18,6 +15,8 @@ RUN ( \
 
 COPY rsyslog.conf /etc/
 COPY rsyslog.d/*.conf /etc/rsyslog.d/
+
+ENV TZ=UTC
 
 VOLUME ["/var/log"]
 
